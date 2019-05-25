@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Flutterwave.com</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+	<div id='container'>
+		<h2><span style="font-weight: lighter;">Flutter</span>wave</h2>
+	</div>
+
+	<br><br><br>
+
+	<h1>Validation</h1>
+	<p>Enter your Bank Verification Number(BVN) to proceed</p>
+
+
+	<label for='bvn'>Bank Verification Number(BVN) *</label><br><br>
+	<input type="Number" name="bvn" id="bvn" placeholder="Enter BVN" required=""> 
+
+	<br><br><button type="submit" name="submit" id='submit' onclick="userAction()">SUBMIT ></button>
+
+	<br><p id='result'></p>
+
+	
+
+	<script type="text/javascript">
+		function userAction() {
+        const bvnNumber = document.getElementById("bvn").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              var response = JSON.parse(this.responseText);
+              const bvn = response.data.bvn;
+              if (bvn == '12345678901') {
+              	document.getElementById('result').innerHTML = 'Valid BVN'
+            	} else {
+            		document.getElementById('result').innerHTML = 'Invalid BVN, Try again!'
+            	}           
+            }
+        };
+      	xhttp.open("GET", `https://ravesandboxapi.flutterwave.com/v2/kyc/bvn/${bvnNumber}?seckey=FLWSECK-e6db11d1f8a6208de8cb2f94e293450e-X`, true);
+      	xhttp.send();
+      }
+	</script>
+
+</body>
+</html> 
